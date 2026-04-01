@@ -5,11 +5,11 @@ from utils import (
     saisir_pseudo,
     afficher_top3,
     save_score,
-    get_top3,
+    get_top,
 )
 
-
-def menu_principal():
+# afficher le menu tant
+def menu():
     while True:
         print("\n\n====================================")
         print("  RPG MONGODB - MENU PRINCIPAL")
@@ -18,29 +18,37 @@ def menu_principal():
         print("  2) Afficher le classement")
         print("  3) Quitter")
 
-        choix = saisir_choix(1, 3)
+# recuperer le choix valide entre 1 et 3.
+        c = saisir_choix(1, 3)
 
-        if choix == 1:
-            demarrer_partie()
-        elif choix == 2:
-            afficher_top3(get_top3())
+# lancer action selon le choix.
+        if c == 1:
+            run_game()
+        elif c == 2:
+            afficher_top3(get_top())
         else:
             print("A bientot !")
             break
 
 
-def demarrer_partie():
-    pseudo = saisir_pseudo()
-    print(f"\nBienvenue {pseudo} ! Choisis ton equipe.\n")
+# demander le pseudo.
+def run_game():
+    user = saisir_pseudo()
+    print("\nBienvenue " + user + " ! Choisis ton equipe.\n")
 
+
+# choisir l'equipe puis jouer les vagues.
     equipe = choisir_equipe()
     vagues = boucle_vagues(equipe)
 
-    save_score(pseudo, vagues)
-    print(f"\n{pseudo}, tu as survecu {vagues} vagues !")
-    afficher_top3(get_top3())
+
+# sauver et afficher le resultat final.
+    save_score(user, vagues)
+    print("\n{}, tu as survecu {} vagues !".format(user, vagues))
+    afficher_top3(get_top())
 
 
+# Point d'entree du programme.
 if __name__ == "__main__":
     initialiser_db()
-    menu_principal()
+    menu()

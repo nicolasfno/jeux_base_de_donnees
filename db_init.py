@@ -27,16 +27,19 @@ MONSTRES = [
 ]
 
 
-def initialiser_db():
+def init_db():
+# Nettoyer les collections de personnages et monstres pour eviter les doublons en cas de changement du code.
     db[COL_CHARACTERS].drop()
     db[COL_MONSTERS].drop()
 
+# inserer les donnees de base.
     db[COL_CHARACTERS].insert_many(PERSONNAGES)
-    print(f"{len(PERSONNAGES)} personnages inseres.")
+    print("{} personnages inseres.".format(len(PERSONNAGES)))
 
     db[COL_MONSTERS].insert_many(MONSTRES)
-    print(f"{len(MONSTRES)} monstres inseres.")
+    print("{} monstres inseres.".format(len(MONSTRES)))
 
+# creer scores si elle n'existe pas deja.
     if COL_SCORES not in db.list_collection_names():
         db.create_collection(COL_SCORES)
         print("Collection scores creee.")
@@ -44,5 +47,8 @@ def initialiser_db():
     print("Base de donnees initialisee avec succes !")
 
 
+initialiser_db = init_db
+
+
 if __name__ == "__main__":
-    initialiser_db()
+    init_db()
